@@ -1,6 +1,7 @@
 import tkinter as tk 
 from tkinter import ttk
 import sv_ttk
+import subprocess
 
 class ScrcpyApp:
     def __init__(self,master):
@@ -12,6 +13,7 @@ class ScrcpyApp:
         sv_ttk.set_theme("dark")
 
         self.create_window()
+        self.process = None
 
     def create_window(self):
         # Main Frame
@@ -40,16 +42,36 @@ class ScrcpyApp:
         self.back_camera_btn.grid(row=0, column=1, sticky='nsew', padx=3, pady=3)
         self.stop_btn.grid(row=1, column=0, columnspan=2, sticky='nsew', padx=3, pady=3)
 
+    def run_scrcpy(self, camera):
+        command = [
+            "scrcpy",
+            "--video-source=camera",
+            "--no-audio",
+            f"--camera-facing={camera}",
+            "--v4l2-sink=/dev/video5",
+            "--max-size=800"
+        ]
+        self.stop_camera()  # Stop any existing process
+        self.process = subprocess.Popen(command)
+
     # Logic for the Buttons
     def front_camera(self):
         print("Front Camera activated")
+        self.run_scrcpy("front")
 
     def back_camera(self):
         print("Back Camera activated")
+        self.run_scrcpy("back")
 
     def stop_camera(self):
         print("Camera stopped")
+        if self.process:
+            self.process.kill()
+            self.process = None
 
+    def on_close(self):
+        self.stop_camera()
+        self.master.destroy()
 if __name__ == "__main__":
     root = tk.Tk()
     ScrcpyApp(root)
