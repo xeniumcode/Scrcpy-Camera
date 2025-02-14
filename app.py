@@ -8,6 +8,7 @@ class ScrcpyApp:
         self.master = master
         master.title("Scrcpy WebCam Controller")
         master.geometry("560x390")
+        master.protocol("WM_DELETE_WINDOW", self.on_close)
 
         sv_ttk.set_theme("dark")
 
@@ -18,19 +19,20 @@ class ScrcpyApp:
         main_frame = ttk.Frame(self.master)
         main_frame.pack(expand=True, fill='both')
 
+        status_frame = ttk.Frame(main_frame)
+        status_frame.pack(side='top', fill='x', padx=10, pady=10)
+        self.status_label = ttk.Label(status_frame, text="Status: Idle", font=("Arial", 12))
+        self.status_label.pack(side='left')
+
         button_frame = ttk.Frame(main_frame)
         button_frame.pack(side='bottom', fill='both', expand=True)
-
         button_frame.columnconfigure((0, 1), weight=1)
         button_frame.rowconfigure((0, 1), weight=1)
-
         self.front_camera_btn = ttk.Button(button_frame, text="Front Camera", command=self.front_camera,style="Camera.TButton")
         self.back_camera_btn = ttk.Button(button_frame, text="Back Camera", command=self.back_camera,style="Camera.TButton")
         self.stop_btn = ttk.Button(button_frame, text="Stop", command=self.stop_camera,style="Camera.TButton")
-
         style = ttk.Style()
         style.configure("Camera.TButton", font=("Arial", 18, "bold"))
-
         self.front_camera_btn.grid(row=0, column=0, sticky='nsew', padx=3, pady=3)
         self.back_camera_btn.grid(row=0, column=1, sticky='nsew', padx=3, pady=3)
         self.stop_btn.grid(row=1, column=0, columnspan=2, sticky='nsew', padx=3, pady=3)
@@ -46,6 +48,8 @@ class ScrcpyApp:
         ]
         self.stop_camera()  # Stop any existing process
         self.process = subprocess.Popen(command)
+        self.current_camera = camera
+        self.update_status(f"{camera.capitalize()} Camera Active")
 
     def front_camera(self):
         print("Front Camera activated")
@@ -60,7 +64,11 @@ class ScrcpyApp:
         if self.process:
             self.process.kill()
             self.process = None
+        self.current_camera = None
+        self.update_status("Idle")
 
+    def update_status(self, status):
+        self.status_label.config(text=f"Status: {status}")
     def on_close(self):
         self.stop_camera()
         self.master.destroy()
