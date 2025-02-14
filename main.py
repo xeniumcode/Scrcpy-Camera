@@ -1,6 +1,6 @@
 import tkinter as tk
 from v4l2loopback import create_virtcam
-from app import ScrcpyApp
+from frontend import ScrcpyApp
 
 # Define the video device number
 VIDEO_NR = 5
