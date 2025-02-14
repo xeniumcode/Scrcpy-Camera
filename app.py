@@ -1,4 +1,3 @@
-import tkinter as tk 
 from tkinter import ttk
 import sv_ttk
 import subprocess
@@ -70,12 +69,9 @@ class ScrcpyApp:
 
     def update_status(self, status):
         self.status_label.config(text=f"Status: {status}")
+
     def on_close(self):
         self.update_status("Closing...")
         self.stop_camera()
-        time.sleep(0.1)
+        time.sleep(0.5)
         self.master.destroy()
-if __name__ == "__main__":
-    root = tk.Tk()
-    ScrcpyApp(root)
-    root.mainloop()
