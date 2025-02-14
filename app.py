@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 import sv_ttk
 import subprocess
+import time
 
 class ScrcpyApp:
     def __init__(self,master):
@@ -70,7 +71,9 @@ class ScrcpyApp:
     def update_status(self, status):
         self.status_label.config(text=f"Status: {status}")
     def on_close(self):
+        self.update_status("Closing...")
         self.stop_camera()
+        time.sleep(0.1)
         self.master.destroy()
 if __name__ == "__main__":
     root = tk.Tk()
