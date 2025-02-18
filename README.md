@@ -2,8 +2,8 @@
 
 ## Description
 
-Scrcpy WebCam Controller is a Python application that allows you to control your Android device's cameras as a webcam on your computer. It utilizes the Scrcpy tool to mirror your Android device's screen and camera feed to your computer.
- 	![Software's Look](window.png)
+Scrcpy WebCam Controller is a Python application that allows you to control your Android device's cameras as a webcam on your computer. It utilizes the Scrcpy tool to mirror your Android device's screen and camera feed to your computer. 	
+![Software's Look](window.png)
 ## Features
 
 - Switch between front and back cameras
