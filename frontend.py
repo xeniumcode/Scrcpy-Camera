@@ -41,6 +41,7 @@ class ScrcpyApp:
         command = [
             "scrcpy",
             "--video-source=camera",
+            "--no-window",
             "--no-audio",
             f"--camera-facing={camera}",
             "--v4l2-sink=/dev/video5",
