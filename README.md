@@ -48,7 +48,7 @@ This creates a virtual video device (/dev/video5 in this case).
 
 #### Run the script
    ```
-   python scrcpy_webcam_controller.py
+   python main.py
    ```
 ## Troubleshooting
 
